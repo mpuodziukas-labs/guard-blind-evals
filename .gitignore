@@ -1,3 +1,5 @@
 __pycache__/
 .pytest_cache/
 *.pyc
+# eval-canary sidecar: local only, a public copy would void the canary
+.canary
