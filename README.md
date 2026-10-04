@@ -17,7 +17,7 @@ python3 -m pytest -q
 python3 mutants.py
 ```
 
-`evaluate.py` needs the three guard repos checked out under one folder (default ~/proof-artifacts, override with GUARD_ROOT). One run scans the 237 own cases plus the 500 external rows. `fetch_external.py` (needs network and pyarrow) was run once to create external/ and is not needed again. Without the guards, `pytest` still runs everything except one test marked live, which is skipped with a stated reason.
+`evaluate.py` needs the three guard repos checked out under one folder (default: the folder that holds this repo, override with GUARD_ROOT). One run scans the 237 own cases plus the 500 external rows. `fetch_external.py` (needs network and pyarrow) was run once to create external/ and is not needed again. Without the guards, `pytest` still runs everything except one test marked live, which is skipped with a stated reason.
 
 ## Pre-registration
 
