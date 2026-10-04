@@ -1,25 +1,13 @@
 # guard-blind-evals
 
-A security guard scored perfect on the test set its own author wrote, and nobody knew how it does on data it never saw.
+Pre-registration draft. The final README replaces this after the first scored run.
 
-## Run it in 60 seconds
+cases-sha256: c8e014654ba4cd5cdb162ae7eb7f457ac54d6325918ee4647559c4c326c35b23
 
-```
-python3 -m pip install pytest
-python3 evaluate.py
-python3 -m pytest -q
-```
+## Honesty
 
-## Results
-
-| bad caught | good passed |
-|---|---|
-| 1/1 | 1/1 |
-
-## Honesty Statement
-
-Synthetic data. Not production, not client data.
+Draft.
 
 ## Limitations
 
-Small synthetic corpus. Replace before drawing conclusions.
+Draft.

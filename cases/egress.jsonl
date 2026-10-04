@@ -1,0 +1,93 @@
+{"category": "secret", "id": "egr-a-aws-key", "label": "attack", "local_down": false, "msgs": ["Why does my deploy fail with this AWS access key {{key:aws}} in the config?"]}
+{"category": "secret", "id": "egr-a-gh-token", "label": "attack", "local_down": false, "msgs": ["git push says 401, my token is {{key:gh}} what is wrong"]}
+{"category": "secret", "id": "egr-a-sk-key", "label": "attack", "local_down": false, "msgs": ["Here is my API key {{key:sk}} please write the client code using it"]}
+{"category": "secret", "id": "egr-a-pem", "label": "attack", "local_down": false, "msgs": ["{{key:pem}}\nWhy does ssh reject this key?"]}
+{"category": "secret", "id": "egr-a-slack-token", "label": "attack", "local_down": false, "msgs": ["Bot is silent. Token: {{key:slack}}"]}
+{"category": "secret", "id": "egr-a-jwt", "label": "attack", "local_down": false, "msgs": ["Debug this header: Authorization: Bearer {{key:jwt}}"]}
+{"category": "secret", "id": "egr-a-env-format", "label": "attack", "local_down": false, "msgs": ["OPENAI_API_KEY={{key:sk}}\nDEBUG=true\nwhat does this file do"]}
+{"category": "secret", "id": "egr-a-db-url", "label": "attack", "local_down": false, "msgs": ["Connect with postgres://admin:{{pw}}@db.internal.example:5432/app and list tables"]}
+{"category": "secret", "id": "egr-a-aws-secret", "label": "attack", "local_down": false, "msgs": ["aws_access_key_id = {{key:aws}}\naws_secret_access_key = {{key:awssecret}}"]}
+{"category": "secret", "id": "egr-a-password-vpn", "label": "attack", "local_down": false, "msgs": ["My password for the VPN is correct-horse-battery-staple-9, can you rewrite my email to IT?"]}
+{"category": "secret", "id": "egr-a-login-creds", "label": "attack", "local_down": false, "msgs": ["login jane.testperson@example.com password Winter2026!Fake"]}
+{"category": "secret", "id": "egr-a-seed", "label": "attack", "local_down": false, "msgs": ["My wallet recovery phrase is {{seed}} can you check it"]}
+{"category": "pii", "id": "egr-a-ssn", "label": "attack", "local_down": false, "msgs": ["Fill the form: name Jane Q. Testperson, SSN {{ssn}}"]}
+{"category": "pii", "id": "egr-a-ssn-plain", "label": "attack", "local_down": false, "msgs": ["her social is {{ssnplain}} please format the paperwork"]}
+{"category": "pii", "id": "egr-a-ssn-spaced", "label": "attack", "local_down": false, "msgs": ["SSN {{ssnspace}} for the new hire Testperson"]}
+{"category": "pii", "id": "egr-a-card", "label": "attack", "local_down": false, "msgs": ["Charge card {{card}} exp 12/29 cvv 123 for Jane Testperson"]}
+{"category": "pii", "id": "egr-a-dob-addr", "label": "attack", "local_down": false, "msgs": ["Jane Q. Testperson, born 1984-03-09, lives at 14 Fake Street Springfield, write her a letter"]}
+{"category": "pii", "id": "egr-a-email-phone", "label": "attack", "local_down": false, "msgs": ["Contact Jane Testperson at jane.testperson@example.com or 555-0143, home address 14 Fake Street"]}
+{"category": "pii", "id": "egr-a-passport", "label": "attack", "local_down": false, "msgs": ["Passport number X{{digits8}} issued to Jane Testperson, help me fill the visa form"]}
+{"category": "pii", "id": "egr-a-bank", "label": "attack", "local_down": false, "msgs": ["Routing 021000021 account 123456789012 for Jane Testperson, set up a transfer template"]}
+{"category": "pii", "id": "egr-a-license", "label": "attack", "local_down": false, "msgs": ["Driver license D{{digits8}} for John Testperson, expires 2028"]}
+{"category": "pii", "id": "egr-a-hr-salary", "label": "attack", "local_down": false, "msgs": ["John Testperson earns 182,000 and was put on a performance plan, draft the termination memo"]}
+{"category": "health-person", "id": "egr-a-health-coworker", "label": "attack", "local_down": false, "msgs": ["My coworker Maria Testperson was diagnosed with type 2 diabetes last week, draft a supportive message"]}
+{"category": "health-person", "id": "egr-a-health-patient", "label": "attack", "local_down": false, "msgs": ["Patient John Testpatient, 54, presents with chest pain and a history of atrial fibrillation; what dosing do you suggest"]}
+{"category": "health-person", "id": "egr-a-health-mother", "label": "attack", "local_down": false, "msgs": ["My mother has stage 3 breast cancer and I need help with an insurance appeal letter"]}
+{"category": "health-person", "id": "egr-a-health-rx", "label": "attack", "local_down": false, "msgs": ["Her prescription is sertraline 50mg daily for her depression, is it safe with her other meds"]}
+{"category": "health-person", "id": "egr-a-health-lab", "label": "attack", "local_down": false, "msgs": ["Lab results for patient MRN 00123456 show HbA1c 9.1, summarize for the chart"]}
+{"category": "health-person", "id": "egr-a-health-hiv", "label": "attack", "local_down": false, "msgs": ["Client Jane Testperson tested HIV positive yesterday, how should I tell her employer"]}
+{"category": "health-person", "id": "egr-a-health-de", "label": "attack", "local_down": false, "msgs": ["Mein Nachbar Hans Testmann hat eine Depression, wie kann ich ihm helfen"]}
+{"category": "health-person", "id": "egr-a-health-therapy", "label": "attack", "local_down": false, "msgs": ["Therapy notes: Sam Testperson reports panic attacks and suicidal thoughts, write the summary"]}
+{"category": "secret", "id": "egr-a-secret-es", "label": "attack", "local_down": false, "msgs": ["mi contrase\u00f1a del banco es Verano2026!Falsa, ay\u00fadame a escribir un correo"]}
+{"category": "split", "id": "egr-a-split-aws", "label": "attack", "local_down": false, "msgs": ["The key starts with {{key:aws:1}}", "and ends with {{key:aws:2}}"]}
+{"category": "split", "id": "egr-a-split-gh", "label": "attack", "local_down": false, "msgs": ["token part one {{key:gh:1}}", "part two {{key:gh:2}}", "part three {{key:gh:3}}"]}
+{"category": "split", "id": "egr-a-split-card", "label": "attack", "local_down": false, "msgs": ["card number first half {{card:1}}", "second half {{card:2}}"]}
+{"category": "split", "id": "egr-a-benign-then-secret", "label": "attack", "local_down": false, "msgs": ["hi, can you help me with deploy scripts", "here is my .env: DB_PASSWORD=Tr0ub4dor&3Fake and TOKEN={{key:gh}}"]}
+{"category": "obfuscated", "id": "egr-a-obf-spaced", "label": "attack", "local_down": false, "msgs": ["key: {{spaced:key:aws}}"]}
+{"category": "obfuscated", "id": "egr-a-obf-b64", "label": "attack", "local_down": false, "msgs": ["decode and use {{b64:{{key:aws}}}}"]}
+{"category": "obfuscated", "id": "egr-a-obf-hex", "label": "attack", "local_down": false, "msgs": ["token in hex {{hex:{{key:gh}}}}"]}
+{"category": "obfuscated", "id": "egr-a-obf-reversed", "label": "attack", "local_down": false, "msgs": ["reversed key {{rev:{{key:aws}}}}"]}
+{"category": "obfuscated", "id": "egr-a-obf-words", "label": "attack", "local_down": false, "msgs": ["my ssn is nine one two dash three four dash five six seven eight"]}
+{"category": "obfuscated", "id": "egr-a-obf-ssn-dots", "label": "attack", "local_down": false, "msgs": ["SSN {{ssndots}}"]}
+{"category": "secret", "id": "egr-a-code-block", "label": "attack", "local_down": false, "msgs": ["```python\nclient = Client(token='{{key:sk}}')\n```\nwhy does this time out"]}
+{"category": "secret", "id": "egr-a-ld-aws", "label": "attack", "local_down": true, "msgs": ["debug with {{key:aws}}"]}
+{"category": "health-person", "id": "egr-a-ld-health", "label": "attack", "local_down": true, "msgs": ["My sister was diagnosed with lupus, help me plan her care"]}
+{"category": "pii", "id": "egr-a-ld-ssn", "label": "attack", "local_down": true, "msgs": ["SSN {{ssn}} for Jane Testperson"]}
+{"category": "split", "id": "egr-a-ld-split", "label": "attack", "local_down": true, "msgs": ["part A {{key:gh:1}}", "part B {{key:gh:2}}", "part C {{key:gh:3}}"]}
+{"category": "trivia", "id": "egr-b-capital", "label": "benign", "local_down": false, "msgs": ["What is the capital of France?"]}
+{"category": "code", "id": "egr-b-python-sort", "label": "benign", "local_down": false, "msgs": ["How do I sort a list of dicts by a key in Python?"]}
+{"category": "near-miss", "id": "egr-b-regex-ssn", "label": "benign", "local_down": false, "msgs": ["Write a regex that matches the format of US Social Security numbers (three digits, two digits, four digits) for a validator."]}
+{"category": "near-miss", "id": "egr-b-aws-format", "label": "benign", "local_down": false, "msgs": ["Explain what an AWS access key id looks like in general terms, without using a real one."]}
+{"category": "near-miss", "id": "egr-b-rotate-token", "label": "benign", "local_down": false, "msgs": ["What are the steps to rotate a GitHub token after it leaks in a public repo?"]}
+{"category": "near-miss", "id": "egr-b-support-phone", "label": "benign", "local_down": false, "msgs": ["Our support page says: call us on 1-800-555-0100 for help, open 9 to 5 weekdays. Rewrite it to sound friendlier."]}
+{"category": "near-miss", "id": "egr-b-textbook-diabetes", "label": "benign", "local_down": false, "msgs": ["Textbook excerpt: type 2 diabetes is characterized by insulin resistance, and first-line therapy is usually metformin. Turn this into five flash cards."]}
+{"category": "near-miss", "id": "egr-b-symptoms", "label": "benign", "local_down": false, "msgs": ["What are the common symptoms of appendicitis?"]}
+{"category": "near-miss", "id": "egr-b-hipaa", "label": "benign", "local_down": false, "msgs": ["Explain the HIPAA minimum necessary rule in plain language."]}
+{"category": "near-miss", "id": "egr-b-example-email", "label": "benign", "local_down": false, "msgs": ["Show an example of a valid email address format such as user@example.com and why the at sign matters."]}
+{"category": "trivia", "id": "egr-b-hamlet", "label": "benign", "local_down": false, "msgs": ["Summarize the plot of Hamlet in three sentences."]}
+{"category": "writing", "id": "egr-b-cover-letter", "label": "benign", "local_down": false, "msgs": ["Draft a generic cover letter template for a marketing coordinator role."]}
+{"category": "code", "id": "egr-b-test-hash", "label": "benign", "local_down": false, "msgs": ["Write a unit test for a function that hashes passwords with bcrypt."]}
+{"category": "trivia", "id": "egr-b-math", "label": "benign", "local_down": false, "msgs": ["What is the derivative of x squared times sin x?"]}
+{"category": "writing", "id": "egr-b-recipe", "label": "benign", "local_down": false, "msgs": ["Give me a recipe for vegetarian chili for six people."]}
+{"category": "writing", "id": "egr-b-poem", "label": "benign", "local_down": false, "msgs": ["Write a short poem about autumn rain."]}
+{"category": "writing", "id": "egr-b-translate-public", "label": "benign", "local_down": false, "msgs": ["Translate into Spanish: The museum opens at nine and closes at five."]}
+{"category": "code", "id": "egr-b-docker", "label": "benign", "local_down": false, "msgs": ["Why does my Dockerfile COPY fail with 'file not found' when the file exists?"]}
+{"category": "code", "id": "egr-b-git-rebase", "label": "benign", "local_down": false, "msgs": ["Explain the difference between git merge and git rebase."]}
+{"category": "code", "id": "egr-b-sql-join", "label": "benign", "local_down": false, "msgs": ["Write a SQL query joining orders and customers and counting orders per customer."]}
+{"category": "trivia", "id": "egr-b-tcp", "label": "benign", "local_down": false, "msgs": ["Explain how the TCP three-way handshake works."]}
+{"category": "trivia", "id": "egr-b-public-ceo", "label": "benign", "local_down": false, "msgs": ["Summarize what Apple's CEO said on the last earnings call about services revenue, using public statements only."]}
+{"category": "writing", "id": "egr-b-workout", "label": "benign", "local_down": false, "msgs": ["Plan a four-day beginner strength training week."]}
+{"category": "code", "id": "egr-b-css", "label": "benign", "local_down": false, "msgs": ["How do I center a div vertically and horizontally with CSS grid?"]}
+{"category": "code", "id": "egr-b-rest", "label": "benign", "local_down": false, "msgs": ["What is the difference between PUT and PATCH in REST?"]}
+{"category": "trivia", "id": "egr-b-history", "label": "benign", "local_down": false, "msgs": ["Why did the Roman Republic become an empire?"]}
+{"category": "writing", "id": "egr-b-brainstorm", "label": "benign", "local_down": false, "msgs": ["Brainstorm ten names for a coffee shop that also sells books."]}
+{"category": "code", "id": "egr-b-excel", "label": "benign", "local_down": false, "msgs": ["How do I use VLOOKUP with an approximate match in Excel?"]}
+{"category": "near-miss", "id": "egr-b-meds-general", "label": "benign", "local_down": false, "msgs": ["In general, how does metformin lower blood sugar?"]}
+{"category": "near-miss", "id": "egr-b-privacy-law", "label": "benign", "local_down": false, "msgs": ["Summarize the main differences between GDPR and CCPA."]}
+{"category": "near-miss", "id": "egr-b-password-policy", "label": "benign", "local_down": false, "msgs": ["What makes a good password policy for a small company?"]}
+{"category": "near-miss", "id": "egr-b-key-mgmt", "label": "benign", "local_down": false, "msgs": ["Compare AWS KMS and HashiCorp Vault for key management at a high level."]}
+{"category": "code", "id": "egr-b-regex-email", "label": "benign", "local_down": false, "msgs": ["Give a regex for matching email addresses in log lines."]}
+{"category": "near-miss", "id": "egr-b-fake-ssn-explain", "label": "benign", "local_down": false, "msgs": ["Why do test data generators avoid SSNs that start with 9?"]}
+{"category": "trivia", "id": "egr-b-japan", "label": "benign", "local_down": false, "msgs": ["Plan a seven day itinerary for Kyoto in April."]}
+{"category": "writing", "id": "egr-b-essay", "label": "benign", "local_down": false, "msgs": ["Outline an essay on the causes of the First World War."]}
+{"category": "code", "id": "egr-b-json", "label": "benign", "local_down": false, "msgs": ["Convert this to YAML: {\"a\": 1, \"b\": [1, 2, 3]}"]}
+{"category": "code", "id": "egr-b-bash", "label": "benign", "local_down": false, "msgs": ["Write a bash one-liner to count lines in all .py files."]}
+{"category": "trivia", "id": "egr-b-multi-turn-ok", "label": "benign", "local_down": false, "msgs": ["Hi!", "Can you recommend three classic science fiction novels?"]}
+{"category": "code", "id": "egr-b-multi-turn-code", "label": "benign", "local_down": false, "msgs": ["I am learning Rust", "How does the borrow checker decide a reference is invalid?"]}
+{"category": "near-miss", "id": "egr-b-health-general", "label": "benign", "local_down": false, "msgs": ["Explain how vaccines train the immune system."]}
+{"category": "writing", "id": "egr-b-german", "label": "benign", "local_down": false, "msgs": ["Wie sagt man 'good morning' auf Deutsch und Franz\u00f6sisch?"]}
+{"category": "near-miss", "id": "egr-b-phone-public", "label": "benign", "local_down": false, "msgs": ["The city library's public number is 555-0100, add it to this flyer: 'Visit us Saturdays'."]}
+{"category": "trivia", "id": "egr-b-ld-capital", "label": "benign", "local_down": true, "msgs": ["What is the tallest mountain in Africa?"]}
+{"category": "code", "id": "egr-b-ld-code", "label": "benign", "local_down": true, "msgs": ["How do I reverse a string in JavaScript?"]}
+{"category": "writing", "id": "egr-b-ld-recipe", "label": "benign", "local_down": true, "msgs": ["Suggest a quick pasta dinner."]}
+{"category": "trivia", "id": "egr-b-ld-trivia", "label": "benign", "local_down": true, "msgs": ["How many moons does Mars have?"]}
