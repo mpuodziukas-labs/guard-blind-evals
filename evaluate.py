@@ -12,6 +12,8 @@ from math import sqrt
 
 ROOT = pathlib.Path(__file__).parent
 CASES_DIR = ROOT / "cases"
+EXT_SAMPLE = ROOT / "external" / "deepset-prompt-injections" / "sample.jsonl"
+EXT_TITLE = "deepset/prompt-injections (external)"
 GUARD_ROOT = pathlib.Path(os.environ.get("GUARD_ROOT", os.path.expanduser("~/proof-artifacts")))
 PY = os.environ.get("GUARD_PY", sys.executable)
 TIMEOUT = 20
@@ -200,7 +202,7 @@ def _invoke(name, case, runner, tmp):
     env = {"PATH": os.environ.get("PATH", ""), "HOME": os.environ.get("HOME", "")}
     if name == "injection":
         f = pathlib.Path(tmp) / "case.txt"
-        f.write_text(resolve(case["text"]), encoding="utf-8")
+        f.write_text(case["text"] if case.get("literal") else resolve(case["text"]), encoding="utf-8")
         return runner([PY, "scanner.py", str(f)], None, env, cwd, TIMEOUT)
     if name == "egress":
         argv = [PY, "router.py"] + (["--local-down"] if case.get("local_down") else [])
@@ -229,6 +231,15 @@ def run_guard(name, cases, runner=real_runner):
     return results
 
 
+def load_external():
+    """The seeded external sample, scanned literally (no placeholder resolution)."""
+    return [dict(json.loads(l), literal=True) for l in EXT_SAMPLE.read_text(encoding="utf-8").splitlines() if l]
+
+
+def run_external(runner=real_runner):
+    return run_guard("injection", load_external(), runner)
+
+
 def guards_present():
     return all((GUARD_ROOT / repo).is_dir() for _, repo in GUARDS.values())
 
@@ -255,6 +266,25 @@ def summarize(preds):
     return "\n".join(rows), misses
 
 
+def summarize_external(preds):
+    c = confusion([(p["label"] == "attack", p["pred"]) for p in preds])
+    prec, rec = rates(c)
+    rows = ["| set | attacks | benign | TP | FP | TN | FN | precision [95% CI] | recall [95% CI] |", "|---|---|---|---|---|---|---|---|---|",
+            f"| {EXT_TITLE} | {c['tp'] + c['fn']} | {c['fp'] + c['tn']} | {c['tp']} | {c['fp']} | {c['tn']} | {c['fn']} | "
+            f"{fmt_rate(prec, c['tp'], c['tp'] + c['fp'])} | {fmt_rate(rec, c['tp'], c['tp'] + c['fn'])} |"]
+    misses = [{"id": p["id"], "kind": "FN" if p["label"] == "attack" else "FP", "reason": p["reason"]}
+              for p in preds if (p["label"] == "attack") != p["pred"]]
+    return "\n".join(rows), misses
+
+
+def misses_tsv(preds):
+    text = {c["id"]: c["text"] for c in load_external()}
+    lines = ["id\tkind\treason\ttext"]
+    for m in summarize_external(preds)[1]:
+        lines.append(f"{m['id']}\t{m['kind']}\t{' '.join(m['reason'].split())}\t{' '.join(text[m['id']].split())[:140]}")
+    return "\n".join(lines) + "\n"
+
+
 def main(argv):
     if not guards_present():
         print(f"RED guard repos not found under {GUARD_ROOT} (set GUARD_ROOT)")
@@ -265,8 +295,15 @@ def main(argv):
     print(f"\nMisses ({len(misses)}):")
     for m in misses:
         print(f"- `{m['id']}` ({m['guard']}, {m['kind']}): {' '.join(m['reason'].split())[:110]}")
+    ext = run_external()
+    ext_table, ext_misses = summarize_external(ext)
+    print(f"\nExternal dataset: {EXT_TITLE}, one scored run, misses listed in external-misses.tsv")
+    print(ext_table)
+    print(f"External misses ({len(ext_misses)}): see external-misses.tsv")
     if "--record" in argv:
         (ROOT / "predictions.json").write_text(json.dumps(preds, indent=0, sort_keys=True) + "\n")
+        (ROOT / "external-predictions.json").write_text(json.dumps(ext, indent=0, sort_keys=True) + "\n")
+        (ROOT / "external-misses.tsv").write_text(misses_tsv(ext), encoding="utf-8")
     return 0
 
 
