@@ -51,6 +51,8 @@ def main():
                 bad += 1
             else:
                 print(f"mutant {name} FAIL exactly ({', '.join(failed)})")
+    total = len(MUTANTS)
+    print(f"mutants killed {total - bad}/{total}")
     return 1 if bad else 0
 
 

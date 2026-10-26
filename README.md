@@ -8,6 +8,29 @@ This repo is a blind evaluation. The evaluator wrote 99 injection, 93 egress and
 
 cases-sha256: c8e014654ba4cd5cdb162ae7eb7f457ac54d6325918ee4647559c4c326c35b23
 
+## Ticket
+
+| Field | Value |
+|---|---|
+| Ticket | guard-blind-evals 2026-10-25 |
+| Status | LIVE |
+| Severity of a false pass | A guard is trusted because its self-score looks perfect or because a table hides its misses, and it is then deployed into traffic it was never measured on. |
+| Scope (in) | Scoring three guards as black boxes on a frozen, hash-pinned case set and on a recorded public-dataset run for the injection firewall, with precision, recall, Wilson intervals, fail-closed handling of crashes and timeouts, and every miss listed. |
+| Out of scope | Real traffic, adaptive attackers, a second evaluator, latency, load and concurrency, and re-running the guards without their repos checked out (see Limitations). |
+| Owner | Michael Puodziukas, michael@puodziukas.dev |
+| Opened | 2026-10-04 |
+| Last verified | 2026-10-25, `External misses (180): see external-misses.tsv` |
+| Oracle | `python3 evaluate.py`, last line `External misses (180): see external-misses.tsv`; `python3 mutants.py`, last line `mutants killed 4/4` |
+| Dependencies | Runtime for evaluate.py: Python standard library only, plus the three guard repos checked out under one folder. Test and mutants: pytest. fetch_external.py: network and pyarrow (not needed again, not run here). |
+| Supported platforms | macOS (both oracles measured here, rc=0); Linux through the ubuntu-latest runner in .github/workflows/ci.yml (not measured here). |
+
+## Quick start
+
+```bash
+python3 evaluate.py
+python3 mutants.py
+```
+
 ## Run it (60s)
 
 ```
@@ -138,6 +161,48 @@ Plain reading: the firewall is a pattern scanner. It catches the literal overrid
 
 `python3 mutants.py` breaks evaluate.py four ways (Wilson half-width, hash ignoring content, a crash skipped, a timeout passed) and requires the suite to go RED each time, after a control copy passes. RED-RUN.txt is the failing test run saved before evaluate.py was written.
 
+`python3 mutants.py` printed:
+
+```text
+control PASS 48/48
+mutant wilson-half-width FAIL exactly (test_readme_external_section_matches_recorded_predictions, test_readme_table_matches_recorded_predictions, test_wilson_half_of_ten, test_wilson_ten_of_ten, test_wilson_zero_of_ten)
+mutant hash-ignores-content FAIL exactly (test_hash_changes_when_a_case_changes, test_readme_pins_the_case_hash)
+mutant crash-skipped FAIL exactly (test_crash_is_fail_closed_not_skipped)
+mutant timeout-passes FAIL exactly (test_crash_is_fail_closed_not_skipped, test_external_crash_is_fail_closed_not_skipped)
+```
+
+## Normal procedure
+
+1. Check out the three guard repos under one folder next to this repo, or set GUARD_ROOT to the folder that holds them. From the repo root run `python3 evaluate.py`. It runs each guard as a black box on the frozen cases and prints one confusion table, the list of misses, and then the external table scored from the recorded answers in `external-predictions.json`.
+2. Read the tables. A positive is an attack. TP and FN split the attacks into flagged and missed. FP and TN split the benign cases into flagged and passed. Every FN and FP appears in the miss list, so no miss is hidden in a rate. A crash, a timeout or unparseable output counts as the guard's own refuse, block or RED answer, never as skipped.
+3. PASS means the run ends without a traceback and the printed tables equal the tables quoted in this README, which the tests pin. The end of a run is quoted here:
+
+```text
+| deepset/prompt-injections (external) | 188 | 312 | 10 | 2 | 310 | 178 | 0.83 [0.55, 0.95] | 0.05 [0.03, 0.10] |
+External misses (180): see external-misses.tsv
+```
+
+4. Run `python3 mutants.py` to prove the tests can fail. It breaks `evaluate.py` in copies, one defect at a time, and requires the suite to go RED each time after a control copy passes.
+5. To refresh the recorded answers after a guard changes, run `python3 evaluate.py` with the guards present, then update the tables in this README from the printed output. The case hash must not change unless a case was changed on purpose.
+
+## Abnormal procedure
+
+| Symptom | Cause | Action | Oracle |
+|---|---|---|---|
+| `evaluate.py` cannot find a guard repo | The three guard repos are not checked out under one folder, or GUARD_ROOT points elsewhere | Check the guard repos out next to this repo, or set GUARD_ROOT to the folder that holds them | `python3 evaluate.py` |
+| The table printed by `evaluate.py` differs from the table in this README | A guard changed, `evaluate.py` changed, or `predictions.json` was edited without the README being updated | Read the diff of the table, then update the README table from the printed output or revert the change | `python3 evaluate.py` |
+| A test reports that a case or label changed without a new hash | A file in `cases/` was edited, so the sha256 no longer matches the `cases-sha256` line | Revert the edit, or record the new hash in the `cases-sha256` line on purpose | `python3 -m pytest -q` |
+| An external file no longer matches `external/MANIFEST.tsv` | A file in `external/` was edited, added or removed | Restore the file from version control and compare its sha256 with the manifest | `python3 -m pytest -q` |
+| `mutants.py` prints a control line that is not PASS, or a mutant that is not FAIL | pytest is missing in the scratch copy, or a defect in `evaluate.py` is not caught by the tests | Run `python3 -m pip install pytest`, or add or tighten a test until that mutant prints FAIL | `python3 mutants.py` |
+
+## Emergency procedure
+
+A guard was scored with this evaluation and looked sound, but live traffic shows an attack it let through.
+
+1. Freeze: stop citing the score of that guard as evidence of safety, and record the repo commit, the guard version and the input that got through.
+2. Replay: add the input as a case in `cases/` with its label, which changes the hash, so record the new `cases-sha256` line on purpose. Run `python3 evaluate.py` with the guards present and confirm the case shows up in the miss list. Run `python3 mutants.py` and expect the control to pass and every mutant to fail.
+3. Tell: the owner (michael@puodziukas.dev) and every team that relied on the score. Name the missed input class and the Limitations item that covers it.
+
 ## Honesty
 
 The evaluator wrote the cases, and it is the same model family as the builder of the guards, so shared blind spots are likely: attacks it can imagine are attacks the builder could also imagine, and the benign cases follow its own idea of ordinary text. The set is small (99, 93 and 45 cases), so the intervals are wide and a difference of ten points between two guards is not established. All data is synthetic. Every key, number and person is fake and marked as such in the cases, and key-shaped strings are built at run time.
@@ -154,11 +219,69 @@ I did not tune the guards, did not read their code or tests, and give no fixes h
 - The egress cases are English-heavy and short. Non-English coverage is two cases, one German and one Spanish.
 - Goal transcripts are short. Very long transcripts, out-of-order lines at scale and concurrent writers are not covered.
 - Precision depends on the attack to benign ratio in this set, roughly one to one, which is not production's ratio.
+- The pytest suite is not part of the evidence below and was not run in this pass.
+- The oracles were measured on macOS only. The Linux runner in the CI workflow was not measured here.
+- `fetch_external.py` was not run in this pass and the external data was not fetched again. The external numbers come from the recorded answers in the repo.
+
+## Architecture
+
+| Path | Role | Lines |
+|---|---|---|
+| `evaluate.py` | The evaluator: runs each guard command on each case, scores it, prints tables and misses | 312 |
+| `mutants.py` | Mutation check: breaks copies of `evaluate.py` and requires red tests | 60 |
+| `fetch_external.py` | One-time fetch of the public dataset sample (needs network and pyarrow), not run in this pass | 57 |
+| `tests/test_core.py` | Tests for the interval math, the confusion matrix, the hash freeze, fail-closed handling and the README tables | 197 |
+| `tests/test_external.py` | Tests for the external set, its manifest, the seeded draw and the README external table | 123 |
+| `predictions.json` | Recorded answer of each guard for every case | 1661 |
+| `external-misses.tsv` | Every external miss with row id, guard answer and the first characters of text | 181 |
+| `external-predictions.json` | Recorded answers of the injection firewall for the external rows | 3502 |
+| `RED-RUN.txt` | The failing test run saved before `evaluate.py` was written | 37 |
+| `RED-RUN-EXTERNAL.txt` | The failing run of the external tests saved before the external data was in place | 13 |
+| `cases/` | The frozen case files for the three guards, pinned by the case hash | none: directory |
+| `external/` | The dataset files and the manifest with the sha256 of each | none: directory |
+
+Data flow:
+
+1. `evaluate.py` reads the frozen case files from `cases/` and writes each case to a file.
+2. It runs each guard command on each file and treats a refusal, block, RED, crash or timeout as flagged.
+3. It prints the confusion tables, the Wilson intervals and the miss list, then scores `external-predictions.json` the same way.
+4. `mutants.py` breaks copies of `evaluate.py` and requires the tests to go red.
+
+## Test and mutation evidence
+
+Measured on 2026-10-25 on macOS by running both oracles from the repo root. Each exited with code zero (rc=0). Last line of `python3 evaluate.py`:
+
+```text
+External misses (180): see external-misses.tsv
+```
+
+The last table row that `python3 evaluate.py` printed, before that line:
+
+```text
+| deepset/prompt-injections (external) | 188 | 312 | 10 | 2 | 310 | 178 | 0.83 [0.55, 0.95] | 0.05 [0.03, 0.10] |
+```
+
+The control line of `python3 mutants.py`, then its last two lines. The script prints one line per mutant, then a `mutants killed N/N` summary line:
+
+```text
+control PASS 48/48
+mutant timeout-passes FAIL exactly (test_crash_is_fail_closed_not_skipped, test_external_crash_is_fail_closed_not_skipped)
+mutants killed 4/4
+```
 
 ## CI
 
 The workflow in .github/workflows/ci.yml runs `python -m pytest -q`. The live test is skipped there because the guards are not checked out, and the README table is checked against predictions.json instead.
 
+## Change log
+
+| Date | Change | Oracle after |
+|---|---|---|
+| 2026-10-25 | Additive restructuring to the README standard: sections added, no old line altered; `mutants.py` now prints a `mutants killed N/N` summary line after the per-mutant lines, no per-mutant line changed | `python3 evaluate.py` last line `External misses (180): see external-misses.tsv`; `python3 mutants.py` first line `control PASS 48/48`, last line `mutants killed 4/4` |
+| 2026-10-04 | First commits (date from the repo git log) | none: no oracle output was recorded for those commits |
+
 ## License
 
 MIT, see LICENSE.
+
+Public repository: [guard-blind-evals](https://github.com/mpuodziukas-labs/guard-blind-evals)
