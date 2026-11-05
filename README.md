@@ -2,6 +2,8 @@
 
 Proves: three AI security guards were scored on cases their authors never saw. Verify in 60s: python3 evaluate.py
 
+Where this fits: OWASP LLM Top 10 2025 LLM01 Prompt Injection; NIST AI RMF function MEASURE. Sources in SOURCES.md.
+
 A security guard scored perfect on the test set its own author wrote, and nobody knew how it does on data it never saw. A team that trusts a perfect self-score ships the guard into traffic it was never measured on, and finds the gaps in production.
 
 This repo is a blind evaluation. The evaluator wrote 99 injection, 93 egress and 45 goal-guard cases without opening the guards' code or tests, froze them by hash, then ran each guard as a black box through its command line and recorded every miss.
